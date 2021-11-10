@@ -74,3 +74,9 @@ def cancel_last_action(board, action):
     if board[row][col] == EMPTY:
         raise Exception("Unable to Cancel Action: Action Did Not Exit")
     board[row][col] = EMPTY
+
+
+def threat_search(beginning, delta_row, delta_col, color):
+    (row, col) = beginning
+    open_count = {2: 0, 3: 0, 4: 0, 5: 0}
+    closed_count = {2: 0, 3: 0, 4: 0, 5: 0}
