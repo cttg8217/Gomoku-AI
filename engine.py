@@ -1,6 +1,7 @@
 """
 Game Engine For Gomoku
 """
+import math
 
 HEIGHT = 8
 WIDTH = 8
@@ -83,6 +84,7 @@ def threat_search(board, beginning, delta_row, delta_col, color):
     status = 1
     count = 0
     while 0 <= row < HEIGHT and 0 <= col < WIDTH:
+        print(row, col, status, count)
         if board[row][col] == color:
             count += 1
         elif board[row][col] == EMPTY:
@@ -102,4 +104,50 @@ def threat_search(board, beginning, delta_row, delta_col, color):
             count = 0
         row += delta_row
         col += delta_col
+    if 2 <= count <= 5:
+        status -= 1
+        if status == 1:
+            closed_count[count] += 1
     return open_count, closed_count
+
+
+def total_threat_count(board, color):
+    total_open_count = {2: 0, 3: 0, 4: 0, 5: 0}
+    total_closed_count = {2: 0, 3: 0, 4: 0, 5: 0}
+    for row in range(HEIGHT):
+        open_count, closed_count = threat_search(board, (row, 0), 0, 1, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    for col in range(WIDTH):
+        open_count, closed_count = threat_search(board, (0, col), 1, 0, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    for row in range(HEIGHT):
+        open_count, closed_count = threat_search(board, (row, 0), 1, 1, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    for col in range(1, WIDTH):
+        open_count, closed_count = threat_search(board, (0, col), 1, 1, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    for row in range(HEIGHT):
+        open_count, closed_count = threat_search(board, (row, 0), -1, 1, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    for col in range(1, WIDTH):
+        open_count, closed_count = threat_search(board, (HEIGHT-1, col), -1, 1, color)
+        for i in range(2, 6):
+            total_open_count[i] += open_count[i]
+            total_closed_count[i] += closed_count[i]
+
+    return total_open_count, total_closed_count

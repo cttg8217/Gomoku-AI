@@ -1,15 +1,11 @@
 from engine import *
 
 board = initial_board()
-execute_action(board, (1, 1))
-execute_action(board, (0, 1))
-execute_action(board, (1, 2))
-execute_action(board, (0, 2))
-execute_action(board, (1, 3))
-execute_action(board, (5, 4))
-execute_action(board, (1, 5))
-execute_action(board, (2, 7))
-execute_action(board, (1, 6))
-print_board(board)
-open_count, closed_count = threat_search(board, (1, 0), 0, 1, WHITE)
-print(open_count, closed_count)
+
+while True:
+    print_board(board)
+    row = int(input("row: "))
+    col = int(input("col: "))
+    execute_action(board, (row, col))
+    open_count, closed_count = total_threat_count(board, WHITE)
+    print(open_count, closed_count)
