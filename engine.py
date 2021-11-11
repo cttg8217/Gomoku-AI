@@ -1,7 +1,7 @@
 """
 Game Engine For Gomoku
 """
-import math
+from math import inf
 
 HEIGHT = 8
 WIDTH = 8
@@ -84,7 +84,6 @@ def threat_search(board, beginning, delta_row, delta_col, color):
     status = 1
     count = 0
     while 0 <= row < HEIGHT and 0 <= col < WIDTH:
-        print(row, col, status, count)
         if board[row][col] == color:
             count += 1
         elif board[row][col] == EMPTY:
@@ -151,3 +150,19 @@ def total_threat_count(board, color):
             total_closed_count[i] += closed_count[i]
 
     return total_open_count, total_closed_count
+
+
+def evaluate_heuristic(board):
+    white_open_threats, white_closed_threats = total_threat_count(board, WHITE)
+    black_open_threats, black_closed_threats = total_threat_count(board, BLACK)
+    if white_open_threats[5] + white_closed_threats[5] > 0:
+        return inf
+    if black_open_threats[5] + black_closed_threats[5] > 0:
+        return -inf
+    h = 4800*(white_open_threats[4] - black_open_threats[4])
+    h += 500*(white_closed_threats[4] - black_closed_threats[4])
+    h += 500*(white_open_threats[3] - black_open_threats[3])
+    h += 200*(white_closed_threats[3] - black_closed_threats[3])
+    h += 50*(white_open_threats[2] - black_open_threats[2])
+    h += 10*(white_closed_threats[2] - black_closed_threats[2])
+    return h
