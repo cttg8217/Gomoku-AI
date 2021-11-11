@@ -1,10 +1,5 @@
-from engine import *
+from ai import *
+from math import inf
 
 board = initial_board()
-
-while True:
-    print_board(board)
-    row = int(input("row: "))
-    col = int(input("col: "))
-    execute_action(board, (row, col))
-    print(evaluate_heuristic(board))
+print(alpha_beta(board, 5, -inf, inf, 1, True, True))

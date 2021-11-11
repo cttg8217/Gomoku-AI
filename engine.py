@@ -3,8 +3,8 @@ Game Engine For Gomoku
 """
 from math import inf
 
-HEIGHT = 8
-WIDTH = 8
+HEIGHT = 19
+WIDTH = 19
 
 WHITE = 1
 BLACK = -1
@@ -59,6 +59,8 @@ def actions(board, interest_range):
                         if 0 <= i < HEIGHT and 0 <= j < WIDTH and board[i][j] == EMPTY:
                             if (i, j) not in cells_of_interest:
                                 cells_of_interest.append((i, j))
+    if len(cells_of_interest) == 0:
+        cells_of_interest.append((HEIGHT//2, WIDTH//2))
 
     return cells_of_interest
 
