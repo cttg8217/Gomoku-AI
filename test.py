@@ -1,6 +1,15 @@
 from engine import *
 
 board = initial_board()
-board[0][0] = WHITE
-board[1][1] = BLACK
-print(actions(board, 1))
+execute_action(board, (1, 1))
+execute_action(board, (0, 1))
+execute_action(board, (1, 2))
+execute_action(board, (0, 2))
+execute_action(board, (1, 3))
+execute_action(board, (5, 4))
+execute_action(board, (1, 5))
+execute_action(board, (2, 7))
+execute_action(board, (1, 6))
+print_board(board)
+open_count, closed_count = threat_search(board, (1, 0), 0, 1, WHITE)
+print(open_count, closed_count)

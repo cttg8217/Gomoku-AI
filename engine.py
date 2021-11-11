@@ -76,7 +76,30 @@ def cancel_last_action(board, action):
     board[row][col] = EMPTY
 
 
-def threat_search(beginning, delta_row, delta_col, color):
+def threat_search(board, beginning, delta_row, delta_col, color):
     (row, col) = beginning
     open_count = {2: 0, 3: 0, 4: 0, 5: 0}
     closed_count = {2: 0, 3: 0, 4: 0, 5: 0}
+    status = 1
+    count = 0
+    while 0 <= row < HEIGHT and 0 <= col < WIDTH:
+        if board[row][col] == color:
+            count += 1
+        elif board[row][col] == EMPTY:
+            if 2 <= count <= 5:
+                if status == 2:
+                    open_count[count] += 1
+                elif status == 1:
+                    closed_count[count] += 1
+            status = 2
+            count = 0
+        else:
+            if 2 <= count <= 5:
+                status -= 1
+                if status == 1:
+                    closed_count[count] += 1
+            status = 1
+            count = 0
+        row += delta_row
+        col += delta_col
+    return open_count, closed_count
