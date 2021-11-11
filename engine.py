@@ -1,11 +1,11 @@
 """
 Game Engine For Gomoku
 """
-from math import inf
+from math import inf, isinf
 from functools import lru_cache
 
-HEIGHT = 19
-WIDTH = 19
+HEIGHT = 9
+WIDTH = 9
 
 WHITE = 1
 BLACK = -1
@@ -24,11 +24,11 @@ def print_board(board):
         for cell in row:
             cell_char = ""
             if cell == EMPTY:
-                cell_char = "0"
+                cell_char = "\033[33m" + 'O' + '\033[0m'
             elif cell == WHITE:
-                cell_char = "W"
+                cell_char = "\033[97m" + 'W' + '\033[0m'
             elif cell == BLACK:
-                cell_char = "B"
+                cell_char = "\033[30m" + 'B' + '\033[0m'
             print(cell_char, end=" ")
         print("")
 
@@ -170,3 +170,13 @@ def evaluate_heuristic(board):
     h += 50*(white_open_threats[2] - black_open_threats[2])
     h += 10*(white_closed_threats[2] - black_closed_threats[2])
     return h
+
+
+def winner(board):
+    h = evaluate_heuristic(tuple(map(tuple, board)))
+    if isinf(h):
+        if h > 0:
+            return WHITE
+        else:
+            return BLACK
+    return None
