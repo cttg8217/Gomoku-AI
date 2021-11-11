@@ -2,6 +2,7 @@
 Game Engine For Gomoku
 """
 from math import inf
+from functools import lru_cache
 
 HEIGHT = 19
 WIDTH = 19
@@ -154,6 +155,7 @@ def total_threat_count(board, color):
     return total_open_count, total_closed_count
 
 
+@lru_cache(maxsize=1000)
 def evaluate_heuristic(board):
     white_open_threats, white_closed_threats = total_threat_count(board, WHITE)
     black_open_threats, black_closed_threats = total_threat_count(board, BLACK)

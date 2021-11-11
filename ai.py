@@ -3,7 +3,7 @@ from math import inf, isinf
 
 
 def alpha_beta(board, depth, alpha, beta, interest_range, maximizing_player, return_action):
-    h = evaluate_heuristic(board)
+    h = evaluate_heuristic(tuple(map(tuple, board)))
     if depth == 0 or isinf(h):
         return h
 
